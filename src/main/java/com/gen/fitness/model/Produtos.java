@@ -1,9 +1,13 @@
 package com.gen.fitness.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,6 +16,7 @@ import jakarta.validation.constraints.NotNull;
 public class Produtos {
 	
 	@Id
+	@JoinColumn(name = "categoria_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
@@ -23,9 +28,16 @@ public class Produtos {
 	
 	@NotNull(message = "O atributo preço é obrigatório!")
 	private float preco;
-
+	
+	 // Relacionamento N:1 (N= muitos produtos 1= uma categoria)
+    @ManyToOne
+    @JsonIgnoreProperties("produtos")
+    @NotNull(message = "A categoria é obrigatória!")
+    private CategoriaModel categoria;
+	
+    // Getters e Setters
 	public Long getId() {
-		return id;
+	return id;
 	}
 
 	public void setId(Long id) {
@@ -55,4 +67,10 @@ public class Produtos {
 	public void setPreco(float preco) {
 		this.preco = preco;
 	}
-}
+
+	public void setCategoria(CategoriaModel categoriaModel, @NotNull(message = "A categoria é obrigatória!") CategoriaModel categoria) {
+		 this.categoria = categoria;
+	}
+		
+	}
+

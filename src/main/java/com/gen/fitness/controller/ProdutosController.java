@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,22 +24,32 @@ import jakarta.validation.Valid;
 
 @RequestMapping("/produtos")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProdutosController {
 	
 	@Autowired
 	private ProdutosRepository produtosRepository;
 
+	// Lista os produtos
 	@GetMapping
 	public ResponseEntity<List<Produtos>> getAll() {
 		return ResponseEntity.ok(produtosRepository.findAll());
 	}
 	
-	@PostMapping
+	 // Busca produtos pelo plano 
+    @GetMapping("/plano/{plano}")
+    public ResponseEntity<List<Produtos>> getByPlano(@PathVariable String plano) {
+        return ResponseEntity.ok(produtosRepository.findAllByPlanoContainingIgnoreCase(plano));
+    }
+	
+    // Cria um novo produto
+		@PostMapping
 	public ResponseEntity<Produtos> post(@Valid @RequestBody Produtos produtos){
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(produtosRepository.save(produtos));
 	}
 	
+	//Atualiza um produto
 	@PutMapping
 	public ResponseEntity<Produtos> put(@Valid @RequestBody Produtos produtos){
 		return produtosRepository.findById(produtos.getId())
@@ -47,6 +58,7 @@ public class ProdutosController {
 						.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 	
+	//Deleta um produto
 	@DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         Optional<Produtos> produto = produtosRepository.findById(id);
