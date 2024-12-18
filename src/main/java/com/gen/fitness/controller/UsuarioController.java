@@ -32,11 +32,14 @@ public class UsuarioController {
 	private UsuarioRepository usuarioRepository;
 	
 	@GetMapping("/all")
-	public ResponseEntity <List<Usuario>> getAll(){
-		
-		return ResponseEntity.ok(usuarioRepository.findAll());
-		
-	}
+    public ResponseEntity<List<Usuario>> getAllUsuarios() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        // Calcular IMC para cada usuário
+        for (Usuario usuario : usuarios) {
+            usuario.setImc(usuario.IMC());
+        }
+        return ResponseEntity.ok(usuarios);
+    }
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getById(@PathVariable Long id) {
@@ -65,6 +68,8 @@ public class UsuarioController {
 	                u.setSenha(usuario.getSenha());
 	                u.setFoto(usuario.getFoto());
 	                u.setUsuario(usuario.getUsuario());
+	                u.setPeso(usuario.getPeso());  // Atualizando o peso
+	                u.setAltura(usuario.getAltura());  // Atualizando a altura
 	                usuarioRepository.save(u); 
 	                return ResponseEntity.ok(u);
 	            })
