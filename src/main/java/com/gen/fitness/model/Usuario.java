@@ -37,13 +37,14 @@ public class Usuario {
     private float peso;
 
     private float altura;
+    
+    private float imc;
 
     @ManyToOne
     @JsonIgnoreProperties("usuario")
     private Produtos produtos;
 
-    private float imc; 
-
+   
     // Getters e Setters
     public Long getId() {
         return id;
