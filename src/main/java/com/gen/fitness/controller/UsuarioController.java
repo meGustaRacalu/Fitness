@@ -49,12 +49,18 @@ import jakarta.validation.Valid;
 	    }
 
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> getById(@PathVariable Long id) {
-		return usuarioRepository.findById(id)
-			.map(resposta -> ResponseEntity.ok(resposta))
-			.orElse(ResponseEntity.notFound().build());
-	}
+	    @GetMapping("/{id}")
+	    public ResponseEntity<Usuario> getById(@PathVariable Long id) {
+	        return usuarioRepository.findById(id)
+	            .map(usuario -> {
+	                // Aplica o cálculo do IMC ao usuário
+	                usuarioService.calcularIMCParaUsuario(usuario);
+	                
+	                // Retorna a resposta com o usuário atualizado com o IMC
+	                return ResponseEntity.ok(usuario);
+	            })
+	            .orElse(ResponseEntity.notFound().build());
+	    }
     
 
 	@PostMapping("/cadastrar")
