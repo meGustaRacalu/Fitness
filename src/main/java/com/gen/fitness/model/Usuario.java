@@ -48,6 +48,7 @@ public class Usuario {
 
 	public float IMC() {
 		if (altura > 0) {
+			imc = peso/ (altura * altura);
 			return peso / (altura * altura);
 		}
 		return 0;
