@@ -17,7 +17,7 @@ public class CategoriaController {
     private CategoriaRepository categoriaRepository;
 
     // Lista as categorias
-    @GetMapping
+    @GetMapping("/all")
     public List<CategoriaModel> getAll() {
         return categoriaRepository.findAll();
     }
@@ -37,13 +37,13 @@ public class CategoriaController {
     }
 
     // Cria uma nova categoria
-    @PostMapping
+    @PostMapping("/cadastrar")
     public CategoriaModel create(@RequestBody CategoriaModel categoria) {
         return categoriaRepository.save(categoria);
     }
 
     // Atualiza uma categoria
-    @PutMapping("/{id}")
+    @PutMapping("/atualizar")
     public ResponseEntity<CategoriaModel> update(@PathVariable Long id, @RequestBody CategoriaModel categoria) {
         return categoriaRepository.findById(id)
                 .map(existingCategoria -> {
@@ -55,7 +55,7 @@ public class CategoriaController {
     }
 
     // Deleta uma categoria
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         return categoriaRepository.findById(id)
                 .map(categoria -> {

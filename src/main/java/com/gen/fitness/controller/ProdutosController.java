@@ -31,7 +31,7 @@ public class ProdutosController {
 	private ProdutosRepository produtosRepository;
 
 	// Lista os produtos
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<List<Produtos>> getAll() {
 		return ResponseEntity.ok(produtosRepository.findAll());
 	}
@@ -43,14 +43,14 @@ public class ProdutosController {
     }
 	
     // Cria um novo produto
-		@PostMapping
+	@PostMapping("/cadastrar")
 	public ResponseEntity<Produtos> post(@Valid @RequestBody Produtos produtos){
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(produtosRepository.save(produtos));
 	}
 	
 	//Atualiza um produto
-	@PutMapping
+	@PutMapping("/atualizar")
 	public ResponseEntity<Produtos> put(@Valid @RequestBody Produtos produtos){
 		return produtosRepository.findById(produtos.getId())
 				.map(resposta -> ResponseEntity.status(HttpStatus.OK)
@@ -59,7 +59,7 @@ public class ProdutosController {
 	}
 	
 	//Deleta um produto
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/deletar/{id}")
     public void delete(@PathVariable Long id) {
         Optional<Produtos> produto = produtosRepository.findById(id);
 

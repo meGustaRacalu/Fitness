@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-
+ 
 @Entity
 @Table(name= "td_categorias")
 public class CategoriaModel {
@@ -27,9 +27,9 @@ public class CategoriaModel {
 
     // Relacionamento 1:N (1 = uma categoria, N = muitos produtos)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("categoria")
+    @JsonIgnoreProperties("categoria") // Evita problemas de serialização no JSON
     private List<Produtos> produtos;
-    
+
     // Getters e Setters
     public Long getId() {
         return id;
@@ -46,10 +46,12 @@ public class CategoriaModel {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public List<Produtos> getProdutos() {
+        return produtos;
+    }
+
     public void setProdutos(List<Produtos> produtos) {
         this.produtos = produtos;
-        for (Produtos produto : produtos) {
-            produto.setCategoria(this, null);
-        }
     }
 }

@@ -1,9 +1,12 @@
 package com.gen.fitness.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -36,6 +39,10 @@ public class Usuario {
 	private float peso;
 	
 	private float altura;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("usuario")
+	private Produtos produtos;
 
 	public Long getId() {
 		return id;
@@ -92,6 +99,16 @@ public class Usuario {
 	public void setAltura(float altura) {
 		this.altura = altura;
 	}
+
+	public Produtos getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(Produtos produtos) {
+		this.produtos = produtos;
+	}
+	
+	 
 
 	
 }
