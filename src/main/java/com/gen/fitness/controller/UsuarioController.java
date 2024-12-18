@@ -19,35 +19,39 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.gen.fitness.model.Usuario;
+import com.gen.fitness.model.UsuarioLogin;
 import com.gen.fitness.repository.UsuarioRepository;
 import com.gen.fitness.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
-	@RestController
-	@RequestMapping("/usuarios")
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	public class UsuarioController {
+@RestController
+@RequestMapping("/usuarios")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+public class UsuarioController {
 
-	    @Autowired
-	    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-	    @Autowired
-	    private UsuarioService usuarioService;
+    @Autowired
+    private UsuarioService usuarioService;
 
-	    // Método para listar todos os usuários com IMC calculado
-	    @GetMapping("/all")
-	    public ResponseEntity<List<Usuario>> getAllUsuarios() {
-	        List<Usuario> usuarios = usuarioRepository.findAll();
-
-	        // Calcula o IMC para todos os usuários
-	        for (Usuario usuario : usuarios) {
-	            usuarioService.calcularIMCParaUsuario(usuario);
-	        }
-
-	        return ResponseEntity.ok(usuarios);
-	    }
-
+    
+    @PostMapping("/logar")
+	public ResponseEntity<UsuarioLogin> autenticarUsuario(@RequestBody Optional<UsuarioLogin> usuarioLogin){
+		return usuarioService.autenticarUsuario(usuarioLogin)
+				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+	}
+    
+    @GetMapping("/all")
+    public ResponseEntity<List<Usuario>> getAllUsuarios() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        for (Usuario usuario : usuarios) {
+            usuarioService.calcularIMCParaUsuario(usuario);
+        }
+        return ResponseEntity.ok(usuarios);
+    }
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getById(@PathVariable Long id) {
@@ -58,12 +62,9 @@ import jakarta.validation.Valid;
 
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Usuario> postUsuario(@RequestBody @Valid Usuario usuario) {
-	    if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent()) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-	    }
-
-	    Usuario novoUsuario = usuarioRepository.save(usuario); 
-	    return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
+		return usuarioService.cadastrarUsuario(usuario)
+			.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+			.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 
 	@PutMapping("/atualizar")
