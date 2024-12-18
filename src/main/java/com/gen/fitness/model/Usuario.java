@@ -15,116 +15,113 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_usuarios")
-public class Usuario { 
+public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotNull(message = "O Atributo Nome é Obrigatório!")
-    private String nome;
+	@NotNull(message = "O Atributo Nome é Obrigatório!")
+	private String nome;
 
-    @NotNull(message = "O Atributo Usuário é Obrigatório!")
-    @Email(message = "O Atributo Usuário deve ser um email válido!")
-    private String usuario;
+	@NotNull(message = "O Atributo Usuário é Obrigatório!")
+	@Email(message = "O Atributo Usuário deve ser um email válido!")
+	private String usuario;
 
-    @NotBlank(message = "O Atributo Senha é Obrigatório!")
-    @Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
-    private String senha;
+	@NotBlank(message = "O Atributo Senha é Obrigatório!")
+	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
+	private String senha;
 
-    @Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
-    private String foto;
+	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
+	private String foto;
 
-    private float peso;
-    
-    private float altura;
+	private float peso;
 
-    // Adicionando um campo imc para armazenar o IMC calculado
-    private float imc;
+	private float altura;
 
-    @ManyToOne
-    @JsonIgnoreProperties("usuario")
-    private Produtos produtos;
+	// Adicionando um campo imc para armazenar o IMC calculado
+	private float imc;
 
-   
-    public float IMC() {
-        if (altura > 0) {
-            return peso / (altura * altura); 
-        }
-        return 0; 
-    }
+	@ManyToOne
+	@JsonIgnoreProperties("usuario")
+	private Produtos produtos;
 
-  
-    public float getImc() {
-        return IMC();
-    }
+	public float IMC() {
+		if (altura > 0) {
+			return peso / (altura * altura);
+		}
+		return 0;
+	}
 
-    public void setImc(float imc) {
-        this.imc = imc;
-    }
+	public float getImc() {
+		return IMC();
+	}
 
-    // Getters e Setters para os outros atributos
-    public Long getId() {
-        return id;
-    }
+	public void setImc(float imc) {
+		this.imc = imc;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public String getUsuario() {
-        return usuario;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
+	public String getUsuario() {
+		return usuario;
+	}
 
-    public String getSenha() {
-        return senha;
-    }
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+	public String getSenha() {
+		return senha;
+	}
 
-    public String getFoto() {
-        return foto;
-    }
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
+	public String getFoto() {
+		return foto;
+	}
 
-    public float getPeso() {
-        return peso;
-    }
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
 
-    public void setPeso(float peso) {
-        this.peso = peso;
-    }
+	public float getPeso() {
+		return peso;
+	}
 
-    public float getAltura() {
-        return altura;
-    }
+	public void setPeso(float peso) {
+		this.peso = peso;
+	}
 
-    public void setAltura(float altura) {
-        this.altura = altura;
-    }
+	public float getAltura() {
+		return altura;
+	}
 
-    public Produtos getProdutos() {
-        return produtos;
-    }
+	public void setAltura(float altura) {
+		this.altura = altura;
+	}
 
-    public void setProdutos(Produtos produtos) {
-        this.produtos = produtos;
-    }
+	public Produtos getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(Produtos produtos) {
+		this.produtos = produtos;
+	}
 }

@@ -47,7 +47,6 @@ public class UsuarioController {
 			.map(resposta -> ResponseEntity.ok(resposta))
 			.orElse(ResponseEntity.notFound().build());
 	}
-    
 
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Usuario> postUsuario(@RequestBody @Valid Usuario usuario) {
