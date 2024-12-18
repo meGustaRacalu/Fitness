@@ -37,11 +37,18 @@ public class Usuario {
 
 	private float peso;
 
+<<<<<<< HEAD
 	private float altura;
+=======
+    private float altura;
+    
+    private float imc;
+>>>>>>> 5084227ee1e944124e67438e7bfc8ffa270f5d30
 
 	// Adicionando um campo imc para armazenar o IMC calculado
 	private float imc;
 
+<<<<<<< HEAD
 	@ManyToOne
 	@JsonIgnoreProperties("usuario")
 	private Produtos produtos;
@@ -52,6 +59,13 @@ public class Usuario {
 		}
 		return 0;
 	}
+=======
+   
+    // Getters e Setters
+    public Long getId() {
+        return id;
+    }
+>>>>>>> 5084227ee1e944124e67438e7bfc8ffa270f5d30
 
 	public float getImc() {
 		return IMC();
