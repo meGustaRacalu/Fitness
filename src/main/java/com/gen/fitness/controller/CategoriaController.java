@@ -44,8 +44,8 @@ public class CategoriaController {
 
     // Atualiza uma categoria
     @PutMapping("/atualizar")
-    public ResponseEntity<CategoriaModel> update(@PathVariable Long id, @RequestBody CategoriaModel categoria) {
-        return categoriaRepository.findById(id)
+    public ResponseEntity<CategoriaModel> update(@RequestBody CategoriaModel categoria) {
+        return categoriaRepository.findById(categoria.getId())  // Usando o ID do corpo da requisição
                 .map(existingCategoria -> {
                     existingCategoria.setDescricao(categoria.getDescricao());
                     categoriaRepository.save(existingCategoria);
