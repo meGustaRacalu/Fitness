@@ -29,6 +29,12 @@ public class CategoriaController {
                 .map(categoria -> ResponseEntity.ok(categoria))
                 .orElse(ResponseEntity.notFound().build());
     }
+    
+    // Busca categoria por descrição
+    @GetMapping("/descricao/{descricao}")
+    public ResponseEntity<List<CategoriaModel>> getByDescricao(@PathVariable String descricao) {
+        return ResponseEntity.ok(categoriaRepository.findAllByDescricaoContainingIgnoreCase(descricao));
+    }
 
     // Cria uma nova categoria
     @PostMapping

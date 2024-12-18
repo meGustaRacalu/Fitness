@@ -1,0 +1,76 @@
+package com.gen.fitness.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+
+@Entity
+@Table (name = "tb_produtos")
+public class Produtos {
+	
+	@Id
+	@JoinColumn(name = "categoria_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@NotNull(message = "O atributo plano é obrigatório!")
+	private String plano;
+	
+	@NotNull(message = "O atributo benefício é obrigatório!")
+	private String beneficio;
+	
+	@NotNull(message = "O atributo preço é obrigatório!")
+	private float preco;
+	
+	 // Relacionamento N:1 (N= muitos produtos 1= uma categoria)
+    @ManyToOne
+    @JsonIgnoreProperties("produtos")
+    @NotNull(message = "A categoria é obrigatória!")
+    private CategoriaModel categoria;
+	
+    // Getters e Setters
+	public Long getId() {
+	return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPlano() {
+		return plano;
+	}
+
+	public void setPlano(String plano) {
+		this.plano = plano;
+	}
+
+	public String getBeneficio() {
+		return beneficio;
+	}
+
+	public void setBeneficio(String beneficio) {
+		this.beneficio = beneficio;
+	}
+
+	public float getPreco() {
+		return preco;
+	}
+
+	public void setPreco(float preco) {
+		this.preco = preco;
+	}
+
+	public void setCategoria(CategoriaModel categoriaModel, @NotNull(message = "A categoria é obrigatória!") CategoriaModel categoria) {
+		 this.categoria = categoria;
+	}
+		
+	}
+
