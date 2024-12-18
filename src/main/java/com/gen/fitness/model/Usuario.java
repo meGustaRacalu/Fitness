@@ -1,7 +1,6 @@
 package com.gen.fitness.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,34 +35,16 @@ public class Usuario {
     private String foto;
 
     private float peso;
-    
-    private float altura;
 
-    // Adicionando um campo imc para armazenar o IMC calculado
-    private float imc;
+    private float altura;
 
     @ManyToOne
     @JsonIgnoreProperties("usuario")
     private Produtos produtos;
 
-   
-    public float IMC() {
-        if (altura > 0) {
-            return peso / (altura * altura); 
-        }
-        return 0; 
-    }
+    private float imc; 
 
-  
-    public float getImc() {
-        return IMC();
-    }
-
-    public void setImc(float imc) {
-        this.imc = imc;
-    }
-
-    // Getters e Setters para os outros atributos
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -126,5 +107,13 @@ public class Usuario {
 
     public void setProdutos(Produtos produtos) {
         this.produtos = produtos;
+    }
+
+    public float getImc() {
+        return imc;
+    }
+
+    public void setImc(float imc) {
+        this.imc = imc;
     }
 }

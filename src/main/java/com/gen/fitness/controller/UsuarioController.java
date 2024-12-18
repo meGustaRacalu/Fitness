@@ -20,26 +20,34 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.gen.fitness.model.Usuario;
 import com.gen.fitness.repository.UsuarioRepository;
+import com.gen.fitness.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/usuarios")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
-public class UsuarioController {
+	@RestController
+	@RequestMapping("/usuarios")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	public class UsuarioController {
 
-	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
-	@GetMapping("/all")
-    public ResponseEntity<List<Usuario>> getAllUsuarios() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
-        // Calcular IMC para cada usuário
-        for (Usuario usuario : usuarios) {
-            usuario.setImc(usuario.IMC());
-        }
-        return ResponseEntity.ok(usuarios);
-    }
+	    @Autowired
+	    private UsuarioRepository usuarioRepository;
+
+	    @Autowired
+	    private UsuarioService usuarioService;
+
+	    // Método para listar todos os usuários com IMC calculado
+	    @GetMapping("/all")
+	    public ResponseEntity<List<Usuario>> getAllUsuarios() {
+	        List<Usuario> usuarios = usuarioRepository.findAll();
+
+	        // Calcula o IMC para todos os usuários
+	        for (Usuario usuario : usuarios) {
+	            usuarioService.calcularIMCParaUsuario(usuario);
+	        }
+
+	        return ResponseEntity.ok(usuarios);
+	    }
+
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getById(@PathVariable Long id) {
