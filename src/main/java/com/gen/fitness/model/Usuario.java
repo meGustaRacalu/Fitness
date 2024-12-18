@@ -17,98 +17,114 @@ import jakarta.validation.constraints.Size;
 @Table(name = "tb_usuarios")
 public class Usuario { 
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@NotNull(message = "O Atributo Nome é Obrigatório!")
-	private String nome;
+    @NotNull(message = "O Atributo Nome é Obrigatório!")
+    private String nome;
 
-	@NotNull(message = "O Atributo Usuário é Obrigatório!")
-	@Email(message = "O Atributo Usuário deve ser um email válido!")
-	private String usuario;
+    @NotNull(message = "O Atributo Usuário é Obrigatório!")
+    @Email(message = "O Atributo Usuário deve ser um email válido!")
+    private String usuario;
 
-	@NotBlank(message = "O Atributo Senha é Obrigatório!")
-	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
-	private String senha;
+    @NotBlank(message = "O Atributo Senha é Obrigatório!")
+    @Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
+    private String senha;
 
-	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
-	private String foto;
-	
-	
-	private float peso;
-	
-	private float altura;
-	
-	@ManyToOne
-	@JsonIgnoreProperties("usuario")
-	private Produtos produtos;
+    @Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
+    private String foto;
 
-	public Long getId() {
-		return id;
-	}
+    private float peso;
+    
+    private float altura;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // Adicionando um campo imc para armazenar o IMC calculado
+    private float imc;
 
-	public String getNome() {
-		return nome;
-	}
+    @ManyToOne
+    @JsonIgnoreProperties("usuario")
+    private Produtos produtos;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+   
+    public float IMC() {
+        if (altura > 0) {
+            return peso / (altura * altura); 
+        }
+        return 0; 
+    }
 
-	public String getUsuario() {
-		return usuario;
-	}
+  
+    public float getImc() {
+        return IMC();
+    }
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
+    public void setImc(float imc) {
+        this.imc = imc;
+    }
 
-	public String getSenha() {
-		return senha;
-	}
+    // Getters e Setters para os outros atributos
+    public Long getId() {
+        return id;
+    }
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getFoto() {
-		return foto;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public float getPeso() {
-		return peso;
-	}
+    public String getUsuario() {
+        return usuario;
+    }
 
-	public void setPeso(float peso) {
-		this.peso = peso;
-	}
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
-	public float getAltura() {
-		return altura;
-	}
+    public String getSenha() {
+        return senha;
+    }
 
-	public void setAltura(float altura) {
-		this.altura = altura;
-	}
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 
-	public Produtos getProdutos() {
-		return produtos;
-	}
+    public String getFoto() {
+        return foto;
+    }
 
-	public void setProdutos(Produtos produtos) {
-		this.produtos = produtos;
-	}
-	
-	 
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
-	
+    public float getPeso() {
+        return peso;
+    }
+
+    public void setPeso(float peso) {
+        this.peso = peso;
+    }
+
+    public float getAltura() {
+        return altura;
+    }
+
+    public void setAltura(float altura) {
+        this.altura = altura;
+    }
+
+    public Produtos getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(Produtos produtos) {
+        this.produtos = produtos;
+    }
 }
