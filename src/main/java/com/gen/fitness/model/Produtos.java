@@ -22,7 +22,9 @@ public class Produtos {
     private Long id;
 
     private String plano;
+    
     private String beneficio;
+    
     private float preco;
 
     // Relacionamento N:1 com CategoriaModel
@@ -82,9 +84,5 @@ public class Produtos {
 	public void setUsuario(List<Usuario> usuario) {
 		this.usuario = usuario;
 	}
-    
-    
-
-    
 }
 
